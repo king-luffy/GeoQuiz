@@ -2,12 +2,16 @@ package com.example.king_luffy_pc.geoquiz;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class QuizActivity extends AppCompatActivity {
+
+    private static final String TAG = "QuizActivity";
+    private static final String KEY_INDEX = "index";
 
     private Button mTrueButton;
     private Button mFalseButton;
@@ -36,6 +40,9 @@ public class QuizActivity extends AppCompatActivity {
         setContentView(R.layout.activity_quiz);
 
         mQuestionTextView = (TextView)findViewById(R.id.question_text_view);
+        if(savedInstanceState!=null){
+            mCurrentIndex = savedInstanceState.getInt(KEY_INDEX,0);
+        }
         updateQuestion();
 
         mTrueButton = (Button)findViewById(R.id.true_button);
@@ -68,5 +75,12 @@ public class QuizActivity extends AppCompatActivity {
                 updateQuestion();
             }
         });
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle saveInstanceState){
+        super.onSaveInstanceState(saveInstanceState);
+        Log.i(TAG,"onSaveInstanceState");
+        saveInstanceState.putInt(KEY_INDEX,mCurrentIndex);
     }
 }
